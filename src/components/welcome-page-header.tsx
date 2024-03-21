@@ -28,7 +28,7 @@ export default function WelcomePageHeader() {
             src="/logo.png"
           />
         </Link>
-        {/* <div className="flex gap-4">
+        <div className="hidden gap-4 md:flex">
           <Link
             className="mx-2 font-medium text-blue-900 hover:underline dark:text-gray-300"
             to="/auth/admin/login"
@@ -47,15 +47,15 @@ export default function WelcomePageHeader() {
           >
             {t("welcomepage.header.trainerLink")}
           </Link>
-        </div> */}
+        </div>
         <div className="flex gap-3">
           <DropdownMenu>
-            <DropdownMenuTrigger>
+            <DropdownMenuTrigger className="md:hidden">
               <Button variant="ghost">
                 {t("welcomepage.header.identify")}
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent>
+            <DropdownMenuContent side="bottom" align="end">
               <DropdownMenuItem>
                 <Link to="/auth/admin/login">
                   {t("welcomepage.header.adminLink")}
@@ -79,12 +79,12 @@ export default function WelcomePageHeader() {
                 <HiLanguage />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent>
+            <DropdownMenuContent side="bottom" align="end">
               <DropdownMenuItem onClick={() => handleLanguageChange("en")}>
-                English
+                {t("general.english")}
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => handleLanguageChange("fr")}>
-                French
+                {t("general.french")}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -94,12 +94,12 @@ export default function WelcomePageHeader() {
                 <CiLight />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent>
+            <DropdownMenuContent side="bottom" align="end">
               <DropdownMenuItem onClick={() => changeTheme("light")}>
-                Light
+                {t("general.light")}
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => changeTheme("dark")}>
-                Dark
+                {t("general.dark")}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

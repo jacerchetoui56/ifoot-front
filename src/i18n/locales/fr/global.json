@@ -1,4 +1,10 @@
 {
+    "general": {
+        "dark": "Sombre",
+        "light": "Clair",
+        "english": "Anglais",
+        "french": "Français"
+    },
     "welcomepage": {
         "header": {
             "adminLink": "Administration",
@@ -20,6 +26,15 @@
             "trainerMessage": "Identifiez-vous pour accéder à votre espace entraineur",
             "email": "Email",
             "password": "Mot de passe",
-            "login": "Connexion"
+            "login": "Connexion",
+            "errors": {
+                "invalidEmail" : "Email invalide",
+                "shortPassword" : "Mot de passe trop court"
+            }
+        },
+        "dashboard": {
+            "header": {
+                "logout": "Déconnexion"
+            }
         }
 }

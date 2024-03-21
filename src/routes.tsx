@@ -7,26 +7,67 @@ export default function RenderedRoutes() {
   const PlayerLogin = lazy(() => import("./pages/player-login"));
   const TrainerLogin = lazy(() => import("./pages/trainer-login"));
   const WeclomePage = lazy(() => import("./pages/Welcome"));
+  const AdminDashboardPage = lazy(() => import("./pages/admin-dashboard"));
+  const AdminDashboardShared = lazy(
+    () => import("./pages/layouts/admin-dashboard-shared"),
+  );
 
   const routes = useRoutes([
     {
       path: "/",
-      element: <WeclomePage />,
+      element: (
+        <Suspense fallback={<LoadingPageSpinner />}>
+          <WeclomePage />,
+        </Suspense>
+      ),
     },
     {
       path: "/auth",
       children: [
         {
           path: "admin/login",
-          element: <AdminLogin />,
+          element: (
+            <Suspense fallback={<LoadingPageSpinner />}>
+              <AdminLogin />,
+            </Suspense>
+          ),
         },
         {
           path: "player/login",
-          element: <PlayerLogin />,
+          element: (
+            <Suspense fallback={<LoadingPageSpinner />}>
+              <PlayerLogin />,
+            </Suspense>
+          ),
         },
         {
           path: "trainer/login",
-          element: <TrainerLogin />,
+          element: (
+            <Suspense fallback={<LoadingPageSpinner />}>
+              <TrainerLogin />
+            </Suspense>
+          ),
+        },
+      ],
+    },
+
+    {
+      path: "/admin/dashboard",
+      element: (
+        <Suspense fallback={<LoadingPageSpinner />}>
+          <AdminDashboardShared />
+        </Suspense>
+      ),
+      children: [
+        {
+          index: true,
+          element: (
+            <Suspense
+              fallback={<div>Custom loading for the admin.........</div>}
+            >
+              <AdminDashboardPage />
+            </Suspense>
+          ),
         },
       ],
     },
@@ -38,7 +79,7 @@ export default function RenderedRoutes() {
     },
   ]);
 
-  return <Suspense fallback={<LoadingPageSpinner />}>{routes}</Suspense>;
+  return <>{routes}</>;
 }
 
 function LoadingPageSpinner() {

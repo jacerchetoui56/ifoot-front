@@ -1,4 +1,10 @@
 {
+    "general": {
+        "dark": "Dark",
+        "light": "Light",
+        "english": "English",
+        "french": "French"
+    },
     "welcomepage": {
         "header": {
             "adminLink": "Administration",
@@ -20,6 +26,15 @@
             "trainerMessage": "Sign in to access your coach space",
             "email": "Email",
             "password": "Password",
-            "login": "Login"
+            "login": "Login",
+            "errors": {
+                "invalidEmail" : "Invalid email",
+                "shortPassword" : "Password is too short"
+            }
+        },
+        "dashboard": {
+            "header": {
+                "logout": "Logout"
+            }
         }
 }

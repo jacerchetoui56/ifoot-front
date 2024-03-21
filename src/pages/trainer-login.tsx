@@ -1,20 +1,24 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+import WelcomePageHeader from "@/components/welcome-page-header";
 import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
+import { useMemo } from "react";
+import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import WelcomePageHeader from "@/components/welcome-page-header";
-
-const validationSchema = z.object({
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(6),
-});
+import { z } from "zod";
 
 export default function TrainerLoginPage() {
   const { t } = useTranslation();
+  const validationSchema = useMemo(
+    () =>
+      z.object({
+        email: z.string().email(t("loginPage.errors.invalidEmail")),
+        password: z.string().min(6, t("loginPage.errors.shortPassword")),
+      }),
+    [t],
+  );
   const {
     register,
     handleSubmit,
@@ -31,7 +35,7 @@ export default function TrainerLoginPage() {
     <div className="flex h-full flex-col">
       <WelcomePageHeader />
       <div className="flex flex-1 items-center justify-center">
-        <div className="w-full max-w-md rounded-md bg-slate-50 p-6 shadow-md dark:bg-gray-900">
+        <div className="w-full max-w-md -translate-y-10 rounded-md bg-slate-50 p-6 shadow-md dark:bg-gray-900">
           <div className="space-y-2 text-center">
             <h3 className="text-center text-4xl font-bold">
               {t("loginPage.trainerTitle")}
@@ -42,7 +46,7 @@ export default function TrainerLoginPage() {
           </div>
           <form className="mt-4 space-y-5" onSubmit={handleSubmit(onSubmit)}>
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">{t("loginPage.email")}</Label>
               <Input
                 {...register("email")}
                 className={clsx("rounded-md p-2", {
@@ -53,10 +57,12 @@ export default function TrainerLoginPage() {
                 type="email"
                 required
               />
-              {/* <span className="text-red-500">{errors.email?.message}</span> */}
+              <span className="text-sm text-red-500">
+                {errors.email?.message}
+              </span>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">{t("loginPage.password")}</Label>
               <Input
                 className={clsx("rounded-md p-2", {
                   "border-pink-600": errors.password,
@@ -67,9 +73,12 @@ export default function TrainerLoginPage() {
                 type="password"
                 required
               />
+              <span className="text-sm text-red-500">
+                {errors.password?.message}
+              </span>
             </div>
             <Button type="submit" className="mt-4 w-full">
-              Login
+              {t("loginPage.login")}
             </Button>
           </form>
         </div>

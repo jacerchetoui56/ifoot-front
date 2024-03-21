@@ -26,7 +26,7 @@ export default function WeclomePage() {
       <WelcomePageHeader />
       <div ref={weclomePageRef} className="welcome-page flex h-full flex-col">
         <main className="flex flex-1 items-center justify-center font-mulish font-medium">
-          <div className="p-2 md:p-0">
+          <div className="-translate-y-10 p-2 md:-translate-y-0 md:p-0">
             <div className="mb-5 text-center text-5xl font-bold md:text-6xl 2xl:text-7xl">
               {t("welcomepage.welcome.title")}
             </div>
