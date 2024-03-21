@@ -41,7 +41,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-const AuthProvider = ({ children }: Props) => {
+function AuthProvider({ children }: Props) {
   const [authState, setAuthState] = React.useState(initialAuthState);
   const pathname = useLocation();
 
@@ -90,11 +90,7 @@ const AuthProvider = ({ children }: Props) => {
     intialize();
   }, [pathname]);
 
-  return (
-    <AuthContext.Provider value={{ ...authState, login, register }}>
-      {children}
-    </AuthContext.Provider>
-  );
-};
+  return <AuthContext.Provider value={{ ...authState, login, register }}>{children}</AuthContext.Provider>;
+}
 
 export default AuthProvider;

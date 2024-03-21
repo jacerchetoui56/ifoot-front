@@ -1,0 +1,25 @@
+{
+    "welcomepage": {
+        "header": {
+            "adminLink": "Administration",
+            "playerLink": "Player",
+            "trainerLink": "Coatch",
+            "identify" : "Sign In"
+        },
+        "welcome": {
+            "title": "Welcome to IFOOT",
+            "description": "The best place to manage your football team!"
+        }
+    },
+        "loginPage" : {
+            "adminTitle": "Admin Login",
+            "adminMessage": "Sign in to access your admin space",
+            "playerTitle": "Player Login",
+            "playerMessage": "Sign in to access your player space",
+            "trainerTitle": "Coach Login",
+            "trainerMessage": "Sign in to access your coach space",
+            "email": "Email",
+            "password": "Password",
+            "login": "Login"
+        }
+}

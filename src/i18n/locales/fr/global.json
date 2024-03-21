@@ -1,0 +1,25 @@
+{
+    "welcomepage": {
+        "header": {
+            "adminLink": "Administration",
+            "playerLink": "Joueur",
+            "trainerLink": "Entraineur",
+            "identify" : "S'identifier"
+        },
+        "welcome": {
+            "title": "Bienvenu à IFOOT",
+            "description": "Le meilleur endroit pour gérer votre équipe de football!"
+        }
+    },
+        "loginPage" : {
+            "adminTitle": "Identification d'administrateurs",
+            "adminMessage": "Identifiez-vous pour accéder à la page d'administration",
+            "playerTitle": "Identification du joueur",
+            "playerMessage": "Identifiez-vous pour accéder à votre espace joueur",
+            "trainerTitle": "Identification de l'entraineur",
+            "trainerMessage": "Identifiez-vous pour accéder à votre espace entraineur",
+            "email": "Email",
+            "password": "Mot de passe",
+            "login": "Connexion"
+        }
+}
