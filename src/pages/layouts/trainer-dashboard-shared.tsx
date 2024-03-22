@@ -16,11 +16,9 @@ import { HiOutlineMenuAlt1 } from "react-icons/hi";
 import DashboardSidebar from "@/components/dashboard-sidebar";
 import { useSidebarStore } from "@/services/stores/sidebar.store";
 import clsx from "clsx";
-import { useAuth } from "@/context/auth-context";
 
-export default function AdminDashboardShared() {
+export default function TrainerDashboardShared() {
   // const isDesktop = useMediaQuery("(min-width: 768px)");
-  const { logout } = useAuth();
   const { t } = useTranslation();
   const { changeTheme } = useThemeContext();
   const { toggle, isOpen } = useSidebarStore();
@@ -76,14 +74,13 @@ export default function AdminDashboardShared() {
                   <DropdownMenuItem>Profile</DropdownMenuItem>
                 </Link>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <span
-                    onClick={() => logout()}
-                    className="w-full text-red-500"
-                  >
-                    {t("dashboard.header.logout")}
-                  </span>
-                </DropdownMenuItem>
+                <Link to="/auth/player/login">
+                  <DropdownMenuItem>
+                    <span className="w-full text-red-500">
+                      {t("dashboard.header.logout")}
+                    </span>
+                  </DropdownMenuItem>
+                </Link>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
@@ -94,7 +91,7 @@ export default function AdminDashboardShared() {
           links={[
             { to: "/", name: "Link One", Icon: <BsCalendar2Event /> },
             {
-              to: "/admin/dashboard",
+              to: "/trainer/dashboard",
               name: "Link Two",
               Icon: <BsCalendar2Event />,
             },

@@ -18,9 +18,9 @@ import { useSidebarStore } from "@/services/stores/sidebar.store";
 import clsx from "clsx";
 import { useAuth } from "@/context/auth-context";
 
-export default function AdminDashboardShared() {
-  // const isDesktop = useMediaQuery("(min-width: 768px)");
+export default function PlayerDashboardShared() {
   const { logout } = useAuth();
+  // const isDesktop = useMediaQuery("(min-width: 768px)");
   const { t } = useTranslation();
   const { changeTheme } = useThemeContext();
   const { toggle, isOpen } = useSidebarStore();
@@ -92,14 +92,41 @@ export default function AdminDashboardShared() {
       <div className={clsx("flex pt-[69px]")}>
         <DashboardSidebar
           links={[
-            { to: "/", name: "Link One", Icon: <BsCalendar2Event /> },
             {
-              to: "/admin/dashboard",
+              to: "/player/dashboard",
+              name: "Home",
+              Icon: <BsCalendar2Event />,
+            },
+            {
+              to: "/player/dashboard",
               name: "Link Two",
               Icon: <BsCalendar2Event />,
             },
-            { to: "/", name: "Link Three", Icon: <BsCalendar2Event /> },
-            { to: "/", name: "Link Four", Icon: <BsCalendar2Event /> },
+            {
+              to: "/player/dashboard",
+              name: "Sessions",
+              Icon: <BsCalendar2Event />,
+            },
+            {
+              to: "/player/dashboard",
+              name: "Presence",
+              Icon: <BsCalendar2Event />,
+            },
+            {
+              to: "/player/dashboard",
+              name: "Chats",
+              Icon: <BsCalendar2Event />,
+            },
+            {
+              to: "/player/dashboard",
+              name: "Annual Program",
+              Icon: <BsCalendar2Event />,
+            },
+            {
+              to: "/player/dashboard",
+              name: "Team Mates",
+              Icon: <BsCalendar2Event />,
+            },
           ]}
         />
         <div

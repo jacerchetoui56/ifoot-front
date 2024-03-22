@@ -5,19 +5,19 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu";
-import { useTranslation } from "react-i18next";
 import { CiLight } from "react-icons/ci";
 import { HiLanguage } from "react-icons/hi2";
 import { Link } from "react-router-dom";
-import i18n from "../i18n";
 import { useThemeContext } from "@/context/theme-context";
+import i18n from "../i18n";
+import { useTranslation } from "react-i18next";
 
 export default function WelcomePageHeader() {
   const { t } = useTranslation();
-  const { changeTheme } = useThemeContext();
   const handleLanguageChange = (lang: string) => {
     i18n.changeLanguage(lang);
   };
+  const { changeTheme } = useThemeContext();
   return (
     <header className="w-full shadow-sm">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-2">

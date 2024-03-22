@@ -7,6 +7,7 @@ import clsx from "clsx";
 import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import { z } from "zod";
 
 export default function TrainerLoginPage() {
@@ -77,9 +78,11 @@ export default function TrainerLoginPage() {
                 {errors.password?.message}
               </span>
             </div>
-            <Button type="submit" className="mt-4 w-full">
-              {t("loginPage.login")}
-            </Button>
+            <Link to="/trainer/dashboard">
+              <Button type="submit" className="mt-4 w-full">
+                {t("loginPage.login")}
+              </Button>
+            </Link>
           </form>
         </div>
       </div>

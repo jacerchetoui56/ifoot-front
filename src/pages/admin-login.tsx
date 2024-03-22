@@ -2,16 +2,19 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import WelcomePageHeader from "@/components/welcome-page-header";
+import { useAuth } from "@/context/auth-context";
+import { Axios } from "@/helpers/axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
 import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 export default function AdminLoginPage() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const validationSchema = useMemo(
     () =>
       z.object({
@@ -20,16 +23,24 @@ export default function AdminLoginPage() {
       }),
     [t],
   );
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<z.infer<typeof validationSchema>>({
+  const { register, handleSubmit } = useForm<z.infer<typeof validationSchema>>({
     resolver: zodResolver(validationSchema),
   });
 
-  function onSubmit(data: z.infer<typeof validationSchema>) {
-    console.log("data submitted: ", data);
+  const { login } = useAuth();
+
+  async function onSubmit(form: z.infer<typeof validationSchema>) {
+    try {
+      const { data } = await Axios.post("/auth/admin/login", {
+        email: form.email,
+        password: form.password,
+      });
+      login(data.user, data.access_token, data.refresh_token);
+      console.log("data", data);
+      navigate("/admin/dashboard");
+    } catch (e) {
+      console.log("error: ", e);
+    }
   }
 
   return (
@@ -50,36 +61,28 @@ export default function AdminLoginPage() {
               <Label htmlFor="email">Email</Label>
               <Input
                 {...register("email")}
-                className={clsx("rounded-md p-2", {
-                  "border-pink-600": errors.email,
-                })}
+                className={clsx("rounded-md p-2")}
                 placeholder="john@example.com"
                 id="email"
                 type="email"
                 required
               />
-              <span className="text-sm text-red-500">
-                {errors.email?.message}
-              </span>
             </div>
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
               <Input
-                className={clsx("rounded-md p-2", {
-                  "border-pink-600": errors.password,
-                })}
+                className={clsx("rounded-md p-2")}
                 {...register("password")}
                 // placeholder="******"
                 id="password"
                 type="password"
                 required
               />
-              <span className="text-sm text-red-500">
-                {errors.password?.message}
-              </span>
             </div>
             <Button type="submit" className="mt-4 w-full">
-              <Link to="/admin/dashboard">{t("loginPage.login")}</Link>
+              {/* <Link to="/admin/dashboard"> */}
+              {t("loginPage.login")}
+              {/* </Link> */}
             </Button>
           </form>
         </div>

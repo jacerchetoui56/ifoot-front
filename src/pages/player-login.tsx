@@ -2,11 +2,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import WelcomePageHeader from "@/components/welcome-page-header";
+import { useAuth } from "@/context/auth-context";
+import { Axios } from "@/helpers/axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
 import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 export default function PlayerLoginPage() {
@@ -27,8 +30,21 @@ export default function PlayerLoginPage() {
     resolver: zodResolver(validationSchema),
   });
 
-  function onSubmit(data: z.infer<typeof validationSchema>) {
-    console.log("data submitted", data);
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
+  async function onSubmit(form: z.infer<typeof validationSchema>) {
+    try {
+      const { data } = await Axios.post("/auth/player/login", {
+        email: form.email,
+        password: form.password,
+      });
+      login(data.user, data.access_token, data.refresh_token);
+      console.log("data", data);
+      navigate("/player/dashboard");
+    } catch (e) {
+      console.log("error: ", e);
+    }
   }
 
   return (

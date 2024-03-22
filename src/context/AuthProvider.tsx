@@ -1,39 +1,25 @@
-import { User } from "../types";
-import { jwtDecode } from "jwt-decode";
 import React, { useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import Axios from "../helpers/axios";
+import { User } from "../types";
 
 interface IAuthState {
   isAuthenticated?: boolean;
   user: User | null;
-  login?: (email: string, password: string) => void;
-  register?: (name: string, email: string, password: string) => void;
 }
-const initialAuthState: IAuthState = {
-  isAuthenticated: false,
-  user: null,
+export type IAuthContext = IAuthState & {
+  login: (user: User, access_token: string, refresh_token: string) => void;
+  logout: () => void;
 };
-export const AuthContext = React.createContext<IAuthState>(initialAuthState);
+
+export const AuthContext = React.createContext<IAuthContext | null>(null);
 
 //! -- set the session --
-const setSession = (accessToken: string, user: User) => {
-  if (accessToken) {
-    localStorage.setItem("accessToken", accessToken);
-    localStorage.setItem("user", JSON.stringify(user));
+const setSession = (access_token: string, refresh_token: string) => {
+  if (access_token) {
+    localStorage.setItem("access_token", access_token);
+    localStorage.setItem("refresh_token", refresh_token);
   } else {
-    localStorage.clear();
-  }
-};
-
-// ! --- check for the jwt expiration --
-const isValidToken = (token: string | null) => {
-  try {
-    const decode = jwtDecode(token || "");
-    const currentTime = Date.now() / 1000;
-    return decode.exp! > currentTime;
-  } catch (err) {
-    return false;
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
   }
 };
 
@@ -42,55 +28,31 @@ type Props = {
 };
 
 function AuthProvider({ children }: Props) {
-  const [authState, setAuthState] = React.useState(initialAuthState);
-  const pathname = useLocation();
+  const [authState, setAuthState] = React.useState<IAuthState>({
+    isAuthenticated: false,
+    user: null,
+  });
 
-  // !--- LOGIN ----
-  const login = async (email: string, password: string) => {
-    const response = await Axios.post("/auth/login", { email, password });
-    if (!response) return null;
+  function login(user: User, access_token: string, refresh_token: string) {
+    setSession(access_token, refresh_token);
+    setAuthState({ isAuthenticated: true, user });
+  }
 
-    const { accessToken, user } = response.data;
-    setSession(accessToken, user);
-    setAuthState({ user, isAuthenticated: true });
-  };
-
-  //! --- REGISTER ---
-  const register = async (name: string, email: string, password: string) => {
-    const response = await Axios.post("/auth/register", {
-      name,
-      email,
-      password,
-    });
-    if (!response) return null;
-
-    const { accessToken, user } = response.data;
-    setSession(accessToken, user);
-    setAuthState({ user, isAuthenticated: true });
-  };
+  function logout() {
+    setSession("", "");
+    setAuthState({ isAuthenticated: false, user: null });
+  }
 
   useEffect(() => {
-    // !-- this function checks the users authentication everytime he changes the page
-    const intialize = async () => {
-      const accessToken = localStorage.getItem("accessToken");
-      const refreshToken = localStorage.getItem("refreshToken");
-      const user = localStorage.getItem("user");
+    // TODO: checking if user was logged in and redirect him to the dashboard
+  }, []);
 
-      if (accessToken && (await isValidToken(refreshToken))) {
-        if (!authState.user) {
-          setAuthState({
-            user: user ? JSON.parse(user) : {},
-            isAuthenticated: true,
-          });
-        }
-      } else if (!isValidToken(refreshToken)) {
-        setAuthState({ user: null, isAuthenticated: false });
-      }
-    };
-    intialize();
-  }, [pathname]);
-
-  return <AuthContext.Provider value={{ ...authState, login, register }}>{children}</AuthContext.Provider>;
+  console.log(authState);
+  return (
+    <AuthContext.Provider value={{ ...authState, login: login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
 export default AuthProvider;
