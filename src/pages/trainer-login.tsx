@@ -2,12 +2,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import WelcomePageHeader from "@/components/welcome-page-header";
+import { useAuth } from "@/context/auth-context";
+import { Axios } from "@/helpers/axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
 import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 import { z } from "zod";
 
 export default function TrainerLoginPage() {
@@ -20,16 +23,28 @@ export default function TrainerLoginPage() {
       }),
     [t],
   );
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<z.infer<typeof validationSchema>>({
+  const { register, handleSubmit } = useForm<z.infer<typeof validationSchema>>({
     resolver: zodResolver(validationSchema),
   });
 
-  function onSubmit(data: z.infer<typeof validationSchema>) {
-    console.log("data submitted", data);
+  const navigate = useNavigate();
+
+  const { login, initializeProfile } = useAuth();
+
+  async function onSubmit(form: z.infer<typeof validationSchema>) {
+    try {
+      const { data } = await Axios.post("/auth/trainer/login", {
+        email: form.email,
+        password: form.password,
+      });
+      login(data.user, data.access_token, data.refresh_token);
+      initializeProfile(data.profile);
+      console.log("data", data);
+      navigate("/trainer/dashboard");
+    } catch (e) {
+      console.log("error: ", e);
+      toast.error("Invalid credentials", { position: "bottom-right" });
+    }
   }
 
   return (
@@ -50,39 +65,27 @@ export default function TrainerLoginPage() {
               <Label htmlFor="email">{t("loginPage.email")}</Label>
               <Input
                 {...register("email")}
-                className={clsx("rounded-md p-2", {
-                  "border-pink-600": errors.email,
-                })}
+                className={clsx("rounded-md p-2")}
                 placeholder="john@example.com"
                 id="email"
                 type="email"
                 required
               />
-              <span className="text-sm text-red-500">
-                {errors.email?.message}
-              </span>
             </div>
             <div className="space-y-2">
               <Label htmlFor="password">{t("loginPage.password")}</Label>
               <Input
-                className={clsx("rounded-md p-2", {
-                  "border-pink-600": errors.password,
-                })}
+                className={clsx("rounded-md p-2")}
                 {...register("password")}
                 // placeholder="******"
                 id="password"
                 type="password"
                 required
               />
-              <span className="text-sm text-red-500">
-                {errors.password?.message}
-              </span>
             </div>
-            <Link to="/trainer/dashboard">
-              <Button type="submit" className="mt-4 w-full">
-                {t("loginPage.login")}
-              </Button>
-            </Link>
+            <Button type="submit" className="mt-4 w-full">
+              {t("loginPage.login")}
+            </Button>
           </form>
         </div>
       </div>

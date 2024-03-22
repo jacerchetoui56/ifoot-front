@@ -17,6 +17,14 @@ export default function RenderedRoutes() {
       } else if (pathname.startsWith("/trainer")) {
         navigate("/auth/trainer/login", { replace: true });
       }
+    } else if (isAuthenticated && user) {
+      if (user?.permissions?.includes("2o3b1m5j9f")) {
+        navigate("/trainer/dashboard");
+      } else if (user?.permissions.includes("1n0a4g5hf5")) {
+        navigate("/player/dashboard");
+      } else if (user?.permissions?.includes("9r8s3k1m2j")) {
+        navigate("/admin/dashboard");
+      }
     }
   }, [pathname, user, isAuthenticated, navigate]);
 

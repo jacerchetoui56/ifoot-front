@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Axios } from "./axios";
 
 export const trainerAxios = axios.create({
   // baseURL: "https://softylearn.onrender.com/api/v1/",
@@ -18,19 +19,20 @@ trainerAxios.interceptors.request.use(
 trainerAxios.interceptors.response.use(
   (response) => response,
   async (err) => {
-    if (err?.response?.status === 401) {
-      localStorage.removeItem("access_token");
-      window.location.href = "/auth/trainer/login";
-    } else if (err?.response?.status === 403) {
+    const prevRequest = err?.config;
+    if (err?.response?.status === 401 && !prevRequest?._retry) {
+      prevRequest._retry = true;
       try {
         const refresh_token = localStorage.getItem("refresh_token");
-        const response = await trainerAxios.post("/auth/trainer/refresh", {
+        const response = await Axios.post("/auth/refresh", {
           refresh_token,
         });
-        trainerAxios.defaults.headers.common.Authorization = `Bearer ${response.data.access_token}`;
-        return trainerAxios(err.config);
+        prevRequest.headers["Authorization"] =
+          `Bearer ${response.data.access_token}`;
+        return trainerAxios(prevRequest);
       } catch (err) {
         localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
         window.location.href = "/auth/trainer/login";
       }
     }
