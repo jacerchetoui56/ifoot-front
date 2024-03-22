@@ -34,7 +34,7 @@ export default function AdminDashboardShared() {
               className="cursor-pointer select-none rounded-sm border p-1"
               onClick={() => toggle()}
             >
-              <HiOutlineMenuAlt1 className="size-5 text-gray-600 hover:text-gray-700 dark:text-gray-200" />
+              <HiOutlineMenuAlt1 className="size-6 text-gray-600 hover:text-gray-700 dark:text-gray-200" />
             </div>
 
             <Link to="/">

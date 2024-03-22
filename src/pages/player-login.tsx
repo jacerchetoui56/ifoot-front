@@ -10,6 +10,7 @@ import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 import { z } from "zod";
 
 export default function PlayerLoginPage() {
@@ -22,11 +23,7 @@ export default function PlayerLoginPage() {
       }),
     [t],
   );
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<z.infer<typeof validationSchema>>({
+  const { register, handleSubmit } = useForm<z.infer<typeof validationSchema>>({
     resolver: zodResolver(validationSchema),
   });
 
@@ -34,16 +31,20 @@ export default function PlayerLoginPage() {
   const navigate = useNavigate();
 
   async function onSubmit(form: z.infer<typeof validationSchema>) {
+    console.log("submitting: ", form);
     try {
-      const { data } = await Axios.post("/auth/player/login", {
-        email: form.email,
-        password: form.password,
-      });
+      const { data } = await Axios.post(
+        "http://localhost:3000/auth/player/login",
+        {
+          email: form.email,
+          password: form.password,
+        },
+      );
       login(data.user, data.access_token, data.refresh_token);
-      console.log("data", data);
       navigate("/player/dashboard");
     } catch (e) {
       console.log("error: ", e);
+      toast.error("Invalid credentials", { position: "bottom-right" });
     }
   }
 
@@ -65,33 +66,23 @@ export default function PlayerLoginPage() {
               <Label htmlFor="email">{t("loginPage.email")}</Label>
               <Input
                 {...register("email")}
-                className={clsx("rounded-md p-2", {
-                  "border-pink-600": errors.email,
-                })}
+                className={clsx("rounded-md p-2")}
                 placeholder="john@example.com"
                 id="email"
                 type="email"
                 required
               />
-              <span className="text-sm text-red-500">
-                {errors.email?.message}
-              </span>
             </div>
             <div className="space-y-2">
               <Label htmlFor="password">{t("loginPage.password")}</Label>
               <Input
-                className={clsx("rounded-md p-2", {
-                  "border-pink-600": errors.password,
-                })}
+                className={clsx("rounded-md p-2")}
                 {...register("password")}
                 // placeholder="******"
                 id="password"
                 type="password"
                 required
               />
-              <span className="text-sm text-red-500">
-                {errors.password?.message}
-              </span>
             </div>
             <Button type="submit" className="mt-4 w-full">
               {t("loginPage.login")}

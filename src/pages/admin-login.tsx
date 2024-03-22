@@ -10,6 +10,7 @@ import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 import { z } from "zod";
 
 export default function AdminLoginPage() {
@@ -27,7 +28,7 @@ export default function AdminLoginPage() {
     resolver: zodResolver(validationSchema),
   });
 
-  const { login } = useAuth();
+  const { login, initializeProfile } = useAuth();
 
   async function onSubmit(form: z.infer<typeof validationSchema>) {
     try {
@@ -36,10 +37,12 @@ export default function AdminLoginPage() {
         password: form.password,
       });
       login(data.user, data.access_token, data.refresh_token);
+      initializeProfile(data.profile);
       console.log("data", data);
       navigate("/admin/dashboard");
     } catch (e) {
       console.log("error: ", e);
+      toast.error("Invalid credentials", { position: "bottom-right" });
     }
   }
 

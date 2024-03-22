@@ -16,12 +16,14 @@ import { HiOutlineMenuAlt1 } from "react-icons/hi";
 import DashboardSidebar from "@/components/dashboard-sidebar";
 import { useSidebarStore } from "@/services/stores/sidebar.store";
 import clsx from "clsx";
+import { useAuth } from "@/context/auth-context";
 
 export default function TrainerDashboardShared() {
   // const isDesktop = useMediaQuery("(min-width: 768px)");
   const { t } = useTranslation();
   const { changeTheme } = useThemeContext();
   const { toggle, isOpen } = useSidebarStore();
+  const { logout } = useAuth();
 
   return (
     <div className="flex h-screen flex-col">
@@ -74,13 +76,14 @@ export default function TrainerDashboardShared() {
                   <DropdownMenuItem>Profile</DropdownMenuItem>
                 </Link>
                 <DropdownMenuSeparator />
-                <Link to="/auth/player/login">
-                  <DropdownMenuItem>
-                    <span className="w-full text-red-500">
-                      {t("dashboard.header.logout")}
-                    </span>
-                  </DropdownMenuItem>
-                </Link>
+                <DropdownMenuItem>
+                  <span
+                    onClick={() => logout()}
+                    className="w-full text-red-500"
+                  >
+                    {t("dashboard.header.logout")}
+                  </span>
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>

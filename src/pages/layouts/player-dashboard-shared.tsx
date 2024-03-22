@@ -93,37 +93,37 @@ export default function PlayerDashboardShared() {
         <DashboardSidebar
           links={[
             {
-              to: "/player/dashboard",
+              to: "/",
               name: "Home",
               Icon: <BsCalendar2Event />,
             },
             {
-              to: "/player/dashboard",
+              to: "/",
               name: "Link Two",
               Icon: <BsCalendar2Event />,
             },
             {
-              to: "/player/dashboard",
+              to: "/",
               name: "Sessions",
               Icon: <BsCalendar2Event />,
             },
             {
-              to: "/player/dashboard",
+              to: "/",
               name: "Presence",
               Icon: <BsCalendar2Event />,
             },
             {
-              to: "/player/dashboard",
+              to: "/",
               name: "Chats",
               Icon: <BsCalendar2Event />,
             },
             {
-              to: "/player/dashboard",
+              to: "/",
               name: "Annual Program",
               Icon: <BsCalendar2Event />,
             },
             {
-              to: "/player/dashboard",
+              to: "/",
               name: "Team Mates",
               Icon: <BsCalendar2Event />,
             },

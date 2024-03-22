@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Axios } from "./axios";
 
 export const adminAxios = axios.create({
   // baseURL: "https://softylearn.onrender.com/api/v1/",
@@ -19,14 +20,11 @@ adminAxios.interceptors.response.use(
   (response) => response,
   async (err) => {
     const prevRequest = err?.config;
-    if (err?.response?.status === 401) {
-      localStorage.removeItem("access_token");
-      window.location.href = "/auth/admin/login";
-    } else if (err?.response?.status === 403 && !prevRequest?._retry) {
+    if (err?.response?.status === 401 && !prevRequest?._retry) {
       prevRequest._retry = true;
       try {
         const refresh_token = localStorage.getItem("refresh_token");
-        const response = await adminAxios.post("/auth/admin/refresh", {
+        const response = await Axios.post("/auth/refresh", {
           refresh_token,
         });
         prevRequest.headers["Authorization"] =
@@ -34,6 +32,7 @@ adminAxios.interceptors.response.use(
         return adminAxios(prevRequest);
       } catch (err) {
         localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
         window.location.href = "/auth/admin/login";
       }
     }
