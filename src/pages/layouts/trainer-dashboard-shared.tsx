@@ -17,14 +17,12 @@ import DashboardSidebar from "@/components/dashboard-sidebar";
 import { useSidebarStore } from "@/services/stores/sidebar.store";
 import clsx from "clsx";
 import { useAuth } from "@/context/auth-context";
-import { useAuth } from "@/context/auth-context";
 
 export default function TrainerDashboardShared() {
   // const isDesktop = useMediaQuery("(min-width: 768px)");
   const { t } = useTranslation();
   const { changeTheme } = useThemeContext();
   const { toggle, isOpen } = useSidebarStore();
-  const { logout } = useAuth();
   const { logout } = useAuth();
 
   return (
