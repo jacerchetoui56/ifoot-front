@@ -19,7 +19,6 @@ import clsx from "clsx";
 import { useAuth } from "@/context/auth-context";
 
 export default function AdminDashboardShared() {
-  // const isDesktop = useMediaQuery("(min-width: 768px)");
   const { logout } = useAuth();
   const { t } = useTranslation();
   const { changeTheme } = useThemeContext();
@@ -54,10 +53,10 @@ export default function AdminDashboardShared() {
               </DropdownMenuTrigger>
               <DropdownMenuContent side="bottom" align="end">
                 <DropdownMenuItem onClick={() => changeTheme("light")}>
-                  Light
+                  {t("dashboard.header.light")}
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => changeTheme("dark")}>
-                  Dark
+                  {t("dashboard.header.dark")}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -72,8 +71,10 @@ export default function AdminDashboardShared() {
                 </Avatar>
               </DropdownMenuTrigger>
               <DropdownMenuContent side="bottom" align="end">
-                <Link to="/admin/profile">
-                  <DropdownMenuItem>Profile</DropdownMenuItem>
+                <Link to="profile">
+                  <DropdownMenuItem>
+                    {t("dashboard.header.profile")}
+                  </DropdownMenuItem>
                 </Link>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
@@ -92,14 +93,62 @@ export default function AdminDashboardShared() {
       <div className={clsx("flex pt-[69px]")}>
         <DashboardSidebar
           links={[
-            { to: "/", name: "Link One", Icon: <BsCalendar2Event /> },
             {
-              to: "/admin/dashboard",
-              name: "Link Two",
+              to: "",
+              name: t("dashboard.sidebar.home"),
               Icon: <BsCalendar2Event />,
             },
-            { to: "/", name: "Link Three", Icon: <BsCalendar2Event /> },
-            { to: "/", name: "Link Four", Icon: <BsCalendar2Event /> },
+            {
+              to: "players",
+              name: t("dashboard.sidebar.players"),
+              Icon: <BsCalendar2Event />,
+            },
+            {
+              to: "trainers",
+              name: t("dashboard.sidebar.trainers"),
+              Icon: <BsCalendar2Event />,
+            },
+            {
+              to: "categories",
+              name: t("dashboard.sidebar.categories"),
+              Icon: <BsCalendar2Event />,
+            },
+
+            {
+              to: "sessions",
+              name: t("dashboard.sidebar.sessions"),
+              Icon: <BsCalendar2Event />,
+            },
+            {
+              to: "presence",
+              name: t("dashboard.sidebar.presence"),
+              Icon: <BsCalendar2Event />,
+            },
+            {
+              to: "chats",
+              name: t("dashboard.sidebar.chats"),
+              Icon: <BsCalendar2Event />,
+            },
+            {
+              to: "tactics",
+              name: t("dashboard.sidebar.tactics"),
+              Icon: <BsCalendar2Event />,
+            },
+            {
+              to: "roles",
+              name: t("dashboard.sidebar.roles-management"),
+              Icon: <BsCalendar2Event />,
+            },
+            {
+              to: "admins",
+              name: t("dashboard.sidebar.admins"),
+              Icon: <BsCalendar2Event />,
+            },
+            {
+              to: "annual-program",
+              name: t("dashboard.sidebar.annual-program"),
+              Icon: <BsCalendar2Event />,
+            },
           ]}
         />
         <div

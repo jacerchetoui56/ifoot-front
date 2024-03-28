@@ -34,7 +34,24 @@
         },
         "dashboard": {
             "header": {
-                "logout": "Logout"
+                "logout": "Logout",
+                "light": "Light",
+                "dark": "Dark",
+                "profile": "Profile"
+            },
+            "sidebar": {
+                "home": "Home",
+                "sessions": "Sessions",
+                "presence": "Presence",
+                "chats": "Chats",
+                "tactics": "Tactics",
+                "annual-program": "Annual Program",
+                "teammates": "Teammates",
+                "players": "Players",
+                "trainers": "Coaches",
+                "roles-management": "Roles Management",
+                "categories": "Categories",
+                "admins": "Admins"
             }
         }
 }

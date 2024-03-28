@@ -2,6 +2,7 @@ import { Axios } from "@/helpers/axios";
 import { jwtDecode, JwtPayload } from "jwt-decode";
 import React, { useEffect } from "react";
 import { Profile, User } from "../types";
+import { LoadingPageSpinner } from "@/routes";
 
 interface IAuthState {
   isAuthenticated?: boolean;
@@ -48,6 +49,7 @@ function AuthProvider({ children }: Props) {
   const [user, setUser] = React.useState<User | null>(null);
   const [profile, setProfile] = React.useState<Profile | null>(null);
   const [isAuthenticated, setIsAuthenticated] = React.useState<boolean>(false);
+  const [loading, setLoading] = React.useState(true);
 
   function login(user: User, access_token: string, refresh_token: string) {
     setSession(access_token, refresh_token);
@@ -83,10 +85,11 @@ function AuthProvider({ children }: Props) {
           setIsAuthenticated(true);
         }
       } catch (err) {
-        console.log("error in auth context: ", err);
         setIsAuthenticated(false);
         setUser(null);
         setProfile(null);
+      } finally {
+        setLoading(false);
       }
     };
     intialize();
@@ -103,7 +106,7 @@ function AuthProvider({ children }: Props) {
         logout: logout,
       }}
     >
-      {children}
+      {loading ? <LoadingPageSpinner /> : children}
     </AuthContext.Provider>
   );
 }

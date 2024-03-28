@@ -34,7 +34,25 @@
         },
         "dashboard": {
             "header": {
-                "logout": "Déconnexion"
+                "logout": "Déconnexion",
+                "light": "Clair",
+                "dark": "Sombre",
+                "profile": "Profil"
+            },
+            "sidebar": {
+                "home": "Accueil",
+                "sessions": "Séances",
+                "presence": "Présences",
+                "chats": "Chats",
+                "tactics": "Tactiques",
+                "annual-program": "Programme annuel",
+                "teammates": "Coéquipiers",
+                "players": "Joueurs",
+                "trainers": "Entraineurs",
+                "teams": "Equipes",
+                "roles-management": "Gestion des rôles",
+                "categories": "Catégories",
+                "admins": "Administrateurs"
             }
         }
 }

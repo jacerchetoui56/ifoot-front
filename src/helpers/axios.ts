@@ -8,7 +8,6 @@ export const Axios = axios.create({
 Axios.interceptors.response.use(
   (response) => response,
   async (err) => {
-    console.log("Axios interceptor error");
     const prevRequest = err?.config;
     if (err?.response?.status === 401 && !prevRequest?._retry) {
       prevRequest._retry = true;
@@ -24,7 +23,6 @@ Axios.interceptors.response.use(
       } catch (err) {
         localStorage.removeItem("access_token");
         localStorage.removeItem("refresh_token");
-        console.log(err);
         // window.location.href = "/";
       }
     }

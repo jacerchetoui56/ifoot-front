@@ -10,6 +10,7 @@ export type LinkType = {
 export default function CNavLink({ to, name, Icon }: LinkType) {
   return (
     <NavLink
+      end
       to={to}
       className={({ isActive }) =>
         clsx(

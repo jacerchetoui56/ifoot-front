@@ -31,10 +31,10 @@ export default function PlayerDashboardShared() {
         <div className=" flex  items-center justify-between px-6 py-2">
           <div className="flex items-center gap-4">
             <div
-              className="cursor-pointer select-none rounded-sm border p-1"
+              className="exclude-dashboard-sidebar cursor-pointer select-none rounded-sm border p-1"
               onClick={() => toggle()}
             >
-              <HiOutlineMenuAlt1 className="size-5 text-gray-600 hover:text-gray-700 dark:text-gray-200" />
+              <HiOutlineMenuAlt1 className="exclude-dashboard-sidebar size-5 text-gray-600 hover:text-gray-700 dark:text-gray-200" />
             </div>
 
             <Link to="/">
@@ -54,10 +54,10 @@ export default function PlayerDashboardShared() {
               </DropdownMenuTrigger>
               <DropdownMenuContent side="bottom" align="end">
                 <DropdownMenuItem onClick={() => changeTheme("light")}>
-                  Light
+                  {t("dashboard.header.light")}
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => changeTheme("dark")}>
-                  Dark
+                  {t("dashboard.header.dark")}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -72,8 +72,10 @@ export default function PlayerDashboardShared() {
                 </Avatar>
               </DropdownMenuTrigger>
               <DropdownMenuContent side="bottom" align="end">
-                <Link to="/admin/profile">
-                  <DropdownMenuItem>Profile</DropdownMenuItem>
+                <Link to="profile">
+                  <DropdownMenuItem>
+                    {t("dashboard.header.profile")}
+                  </DropdownMenuItem>
                 </Link>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
@@ -93,38 +95,33 @@ export default function PlayerDashboardShared() {
         <DashboardSidebar
           links={[
             {
-              to: "/",
-              name: "Home",
+              to: "",
+              name: t("dashboard.sidebar.home"),
               Icon: <BsCalendar2Event />,
             },
             {
-              to: "/",
-              name: "Link Two",
+              to: "sessions",
+              name: t("dashboard.sidebar.sessions"),
               Icon: <BsCalendar2Event />,
             },
             {
-              to: "/",
-              name: "Sessions",
+              to: "presence",
+              name: t("dashboard.sidebar.presence"),
               Icon: <BsCalendar2Event />,
             },
             {
-              to: "/",
-              name: "Presence",
+              to: "chats",
+              name: t("dashboard.sidebar.chats"),
               Icon: <BsCalendar2Event />,
             },
             {
-              to: "/",
-              name: "Chats",
+              to: "annual-program",
+              name: t("dashboard.sidebar.annual-program"),
               Icon: <BsCalendar2Event />,
             },
             {
-              to: "/",
-              name: "Annual Program",
-              Icon: <BsCalendar2Event />,
-            },
-            {
-              to: "/",
-              name: "Team Mates",
+              to: "teammates",
+              name: t("dashboard.sidebar.teammates"),
               Icon: <BsCalendar2Event />,
             },
           ]}

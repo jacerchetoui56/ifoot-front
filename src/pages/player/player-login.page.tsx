@@ -6,7 +6,7 @@ import { useAuth } from "@/context/auth-context";
 import { Axios } from "@/helpers/axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -27,11 +27,17 @@ export default function PlayerLoginPage() {
     resolver: zodResolver(validationSchema),
   });
 
-  const { login } = useAuth();
+  const { login, initializeProfile, isAuthenticated, user } = useAuth();
+
+  useEffect(() => {
+    if (isAuthenticated && user?.permissions.includes("1n0a4g5hf5")) {
+      navigate("/player/dashboard", { replace: true });
+    }
+  }, []);
+
   const navigate = useNavigate();
 
   async function onSubmit(form: z.infer<typeof validationSchema>) {
-    console.log("submitting: ", form);
     try {
       const { data } = await Axios.post(
         "http://localhost:3000/auth/player/login",
@@ -41,9 +47,9 @@ export default function PlayerLoginPage() {
         },
       );
       login(data.user, data.access_token, data.refresh_token);
+      initializeProfile(data.profile);
       navigate("/player/dashboard");
     } catch (e) {
-      console.log("error: ", e);
       toast.error("Invalid credentials", { position: "bottom-right" });
     }
   }
@@ -78,7 +84,6 @@ export default function PlayerLoginPage() {
               <Input
                 className={clsx("rounded-md p-2")}
                 {...register("password")}
-                // placeholder="******"
                 id="password"
                 type="password"
                 required

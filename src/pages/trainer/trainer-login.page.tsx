@@ -6,7 +6,7 @@ import { useAuth } from "@/context/auth-context";
 import { Axios } from "@/helpers/axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -29,7 +29,13 @@ export default function TrainerLoginPage() {
 
   const navigate = useNavigate();
 
-  const { login, initializeProfile } = useAuth();
+  const { login, initializeProfile, isAuthenticated, user } = useAuth();
+
+  useEffect(() => {
+    if (isAuthenticated && user?.permissions.includes("2o3b1m5j9f")) {
+      navigate("/trainer/dashboard", { replace: true });
+    }
+  }, []);
 
   async function onSubmit(form: z.infer<typeof validationSchema>) {
     try {
@@ -39,10 +45,8 @@ export default function TrainerLoginPage() {
       });
       login(data.user, data.access_token, data.refresh_token);
       initializeProfile(data.profile);
-      console.log("data", data);
       navigate("/trainer/dashboard");
     } catch (e) {
-      console.log("error: ", e);
       toast.error("Invalid credentials", { position: "bottom-right" });
     }
   }

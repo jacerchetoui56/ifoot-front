@@ -2,7 +2,6 @@ import axios from "axios";
 import { Axios } from "./axios";
 
 export const adminAxios = axios.create({
-  // baseURL: "https://softylearn.onrender.com/api/v1/",
   baseURL: "http://localhost:3000/",
   timeout: 10000,
 });
